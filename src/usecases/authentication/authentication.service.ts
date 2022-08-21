@@ -10,10 +10,13 @@ export class AuthenticationService {
     private userRepository: Repository<User>,
   ) {}
 
-  async findUserByEmailAndPassword(
-    email: string,
-    password: string,
-  ): Promise<UserModel> {
+  async findUserByEmailAndPassword({
+    email,
+    password,
+  }: {
+    email: string;
+    password: string;
+  }): Promise<UserModel> {
     const user = await this.userRepository.findOneBy({ email, password });
     if (!user) throw new NotFoundException('user not found');
     return user;

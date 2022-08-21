@@ -14,11 +14,8 @@ export class AuthenticationController {
 
   @Post()
   @UseInterceptors(NotFoundException)
-  async authentication(@Body() { email, password }: AuthenticationDto) {
-    const user = await this.authService.findUserByEmailAndPassword(
-      email,
-      password,
-    );
+  async authentication(@Body() params: AuthenticationDto) {
+    const user = await this.authService.findUserByEmailAndPassword(params);
     return user;
   }
 }
