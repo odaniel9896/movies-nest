@@ -35,4 +35,24 @@ export class MovieService {
 
     return identifiers[0].id;
   }
+
+  async loadAllMovies(): Promise<Movie[]> {
+    const movies = await this.movieRepository
+      .createQueryBuilder('movie')
+      .select([
+        'movie.id',
+        'movie.name',
+        'movie.trailer_link',
+        'movie.release_date',
+        'movie.created_at',
+        'movie.updated_at',
+        'movieToCategories',
+        'categorie',
+      ])
+      .leftJoin('movie.movieToCategories', 'movieToCategories')
+      .leftJoin('movieToCategories.categorie', 'categorie')
+      .getMany();
+
+    return movies;
+  }
 }
