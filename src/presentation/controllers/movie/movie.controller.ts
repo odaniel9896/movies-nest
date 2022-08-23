@@ -1,6 +1,14 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  NotFoundException,
+  Param,
+  Post,
+  UseInterceptors,
+} from '@nestjs/common';
 import { Movie } from 'src/domain/models';
-import { CreateMovieDto } from 'src/presentation/dtos/movie-dto';
+import { CreateMovieDto, FindChipDto } from 'src/presentation/dtos/movie-dto';
 import { MovieService } from 'src/usecases/movie/movie.service';
 
 @Controller('movie')
@@ -16,5 +24,11 @@ export class MovieController {
   @Get()
   async load(): Promise<Movie[]> {
     return await this.movieService.loadAllMovies();
+  }
+
+  @Get(':id')
+  @UseInterceptors(NotFoundException)
+  async findOne(@Param() { id }: FindChipDto): Promise<Movie> {
+    return await this.movieService.loadMovie(id);
   }
 }

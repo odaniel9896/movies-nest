@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { Movie } from 'src/infra/typeorm/entities';
 import { MovieCategorie } from 'src/infra/typeorm/entities/movie-categorie.entity';
 import { CreateMovieDto } from 'src/presentation/dtos/movie-dto';
@@ -54,5 +54,18 @@ export class MovieService {
       .getMany();
 
     return movies;
+  }
+
+  async loadMovie(id: number): Promise<Movie> {
+    const movie = await this.movieRepository.findOne({
+      relations: {
+        movieToCategories: {
+          categorie: true,
+        },
+      },
+      where: { id },
+    });
+    if (!movie) throw new NotFoundException('movie not found');
+    return movie;
   }
 }
