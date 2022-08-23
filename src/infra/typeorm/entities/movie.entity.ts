@@ -4,10 +4,9 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
-  ManyToMany,
-  JoinTable,
+  OneToMany,
 } from 'typeorm';
-import { Categorie } from './categorie.entity';
+import { MovieCategorie } from './movie-categorie.entity';
 
 @Entity()
 export class Movie {
@@ -29,7 +28,6 @@ export class Movie {
   @UpdateDateColumn()
   updated_at: Date;
 
-  @ManyToMany(() => Categorie)
-  @JoinTable()
-  categories: Categorie[];
+  @OneToMany(() => MovieCategorie, (movieCategorie) => movieCategorie.movie)
+  public movieToCategories!: MovieCategorie[];
 }

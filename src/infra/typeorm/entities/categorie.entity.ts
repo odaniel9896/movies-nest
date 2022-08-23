@@ -4,7 +4,9 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToMany,
 } from 'typeorm';
+import { MovieCategorie } from './movie-categorie.entity';
 
 @Entity()
 export class Categorie {
@@ -19,4 +21,7 @@ export class Categorie {
 
   @UpdateDateColumn()
   updated_at: Date;
+
+  @OneToMany(() => MovieCategorie, (movieCategorie) => movieCategorie.categorie)
+  public categoriesToMovie!: MovieCategorie[];
 }

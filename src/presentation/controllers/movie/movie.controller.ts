@@ -1,4 +1,5 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Movie } from 'src/domain/models';
 import { CreateMovieDto } from 'src/presentation/dtos/movie-dto';
 import { MovieService } from 'src/usecases/movie/movie.service';
 
@@ -7,8 +8,13 @@ export class MovieController {
   constructor(private readonly movieService: MovieService) {}
 
   @Post()
-  async create(@Body() params: CreateMovieDto) {
+  async create(@Body() params: CreateMovieDto): Promise<{ id: number }> {
     const movieId = await this.movieService.create(params);
     return { id: movieId };
+  }
+
+  @Get()
+  async load(): Promise<Movie[]> {
+    return await this.movieService.loadAllMovies();
   }
 }
