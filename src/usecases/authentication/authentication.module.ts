@@ -6,6 +6,7 @@ import { userProvider } from 'src/infra/typeorm/providers';
 import { jwt } from 'src/main/config/constants';
 import { AuthenticationController } from 'src/presentation/controllers/authentication/authentication.controller';
 import { AuthenticationService } from './authentication.service';
+import { JwtStrategy } from './jwt-strategy';
 
 @Module({
   imports: [
@@ -17,6 +18,6 @@ import { AuthenticationService } from './authentication.service';
     }),
   ],
   controllers: [AuthenticationController],
-  providers: [AuthenticationService, ...userProvider],
+  providers: [AuthenticationService, ...userProvider, JwtStrategy],
 })
 export class AuthenticationModule {}
