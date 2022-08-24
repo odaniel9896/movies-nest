@@ -3,13 +3,13 @@ import { Category } from 'src/infra/typeorm/entities';
 import { Repository } from 'typeorm';
 
 @Injectable()
-export class CategorieService {
+export class CategoryService {
   constructor(
     @Inject('CATEGORY_REPOSITORY')
-    private categorieRepository: Repository<Category>,
+    private categoryRepository: Repository<Category>,
   ) {}
 
   async load(): Promise<Category[]> {
-    return await this.categorieRepository.find();
+    return await this.categoryRepository.find();
   }
 }
