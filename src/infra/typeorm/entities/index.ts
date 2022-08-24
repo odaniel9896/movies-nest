@@ -1,4 +1,4 @@
 export * from './user.entity';
 export * from './movie.entity';
-export * from './categorie.entity';
-export * from './movie-categorie.entity';
+export * from './category.entity';
+export * from './movie-category.entity';

@@ -1,3 +1,4 @@
+import constants from 'src/main/config/constants';
 import { DataSource } from 'typeorm';
 
 export const databaseProviders = [
@@ -6,11 +7,11 @@ export const databaseProviders = [
     useFactory: async () => {
       const dataSource = new DataSource({
         type: 'mysql',
-        host: 'localhost',
-        port: 3307,
-        username: 'root',
-        password: '9896123',
-        database: 'movies',
+        host: constants().database.DB_HOST,
+        port: parseInt(constants().database.DB_PORT, 10),
+        username: constants().database.DB_USERNAME,
+        password: constants().database.DB_PASSWORD,
+        database: constants().database.DB_DATABASE,
         entities: [__dirname + '/../**/*.entity{.ts,.js}'],
         synchronize: true,
       });

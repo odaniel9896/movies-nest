@@ -6,7 +6,7 @@ import {
   UpdateDateColumn,
   OneToMany,
 } from 'typeorm';
-import { MovieCategorie } from './movie-categorie.entity';
+import { MovieCategory } from './movie-category.entity';
 
 @Entity()
 export class Movie {
@@ -28,6 +28,6 @@ export class Movie {
   @UpdateDateColumn()
   updated_at: Date;
 
-  @OneToMany(() => MovieCategorie, (movieCategorie) => movieCategorie.movie)
-  public movieToCategories!: MovieCategorie[];
+  @OneToMany(() => MovieCategory, (movieCategory) => movieCategory.movie)
+  public movieToCategories!: MovieCategory[];
 }

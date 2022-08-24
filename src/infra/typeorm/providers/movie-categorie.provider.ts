@@ -1,11 +1,11 @@
 import { DataSource } from 'typeorm';
-import { MovieCategorie } from '../entities/movie-categorie.entity';
+import { MovieCategory } from '../entities/movie-category.entity';
 
-export const movieCategorieProvider = [
+export const movieCategoryProvider = [
   {
-    provide: 'MOVIE_CATEGORIE_REPOSITORY',
+    provide: 'MOVIE_CATEGORY_REPOSITORY',
     useFactory: (dataSource: DataSource) =>
-      dataSource.getRepository(MovieCategorie),
+      dataSource.getRepository(MovieCategory),
     inject: ['DATA_SOURCE'],
   },
 ];

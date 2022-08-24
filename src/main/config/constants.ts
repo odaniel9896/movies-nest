@@ -1,3 +1,11 @@
-export const jwt = {
-  secret: '815be6bedd0256489f1da06170d503b2d177f922d82cfe0b26b8b9b9155fe865',
-};
+export default () => ({
+  port: parseInt(process.env.PORT, 10) || 3000,
+  secret: process.env.JWT_SECRET,
+  database: {
+    DB_PASSWORD: process.env.DB_PASSWORD,
+    DB_USERNAME: process.env.DB_USERNAME,
+    DB_HOST: process.env.DB_HOST,
+    DB_PORT: process.env.DB_PORT,
+    DB_DATABASE: process.env.DB_DATABASE,
+  },
+});

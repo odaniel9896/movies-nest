@@ -6,10 +6,10 @@ import {
   UpdateDateColumn,
   OneToMany,
 } from 'typeorm';
-import { MovieCategorie } from './movie-categorie.entity';
+import { MovieCategory } from './movie-category.entity';
 
 @Entity()
-export class Categorie {
+export class Category {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -22,6 +22,6 @@ export class Categorie {
   @UpdateDateColumn()
   updated_at: Date;
 
-  @OneToMany(() => MovieCategorie, (movieCategorie) => movieCategorie.categorie)
-  public categoriesToMovie!: MovieCategorie[];
+  @OneToMany(() => MovieCategory, (movieCategory) => movieCategory.category)
+  public categoriesToMovie!: MovieCategory[];
 }
