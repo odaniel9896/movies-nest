@@ -3,7 +3,7 @@ import { Category } from 'src/domain/models';
 import { JwtAuthGuard } from 'src/usecases/authentication/jwt-auth.guard';
 import { CategoryService } from 'src/usecases/categorie/category.service';
 
-@Controller('categorie')
+@Controller('category')
 @UseGuards(JwtAuthGuard)
 export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}

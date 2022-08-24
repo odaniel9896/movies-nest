@@ -8,7 +8,7 @@ import {
 } from 'typeorm';
 import { MovieCategory } from './movie-category.entity';
 
-@Entity()
+@Entity('category')
 export class Category {
   @PrimaryGeneratedColumn()
   id: number;
