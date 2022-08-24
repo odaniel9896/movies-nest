@@ -1,24 +1,24 @@
 version: '3'
 services:
-  mysqldb:
-    image: mysql:5.7
-    restart: unless-stopped
-    env_file: ./.env
-    environment:
-      - MYSQL_ROOT_PASSWORD=$DB_PASSWORD
-      - MYSQL_DATABASE=$DB_DATABASE
-      - MYSQL_DATABASE_HOST=$DB_HOST
-    ports:
-      - $DB_PORT:$PORT
+  # mysqldb:
+  #   image: mysql:5.7
+  #   restart: unless-stopped
+  #   env_file: ./.env
+  #   environment:
+  #     - MYSQL_ROOT_PASSWORD=$DB_PASSWORD
+  #     - MYSQL_DATABASE=$DB_DATABASE
+  #     - MYSQL_DATABASE_HOST=$DB_HOST
+  #   ports:
+  #     - $DB_PORT:$PORT
 
   app:
     image: node:16
-    depends_on:
-      - mysqldb
+    # depends_on:
+    #   - mysqldb
     restart: always
     env_file: ./.env
     working_dir: /app
-    command: bash -c "npm install && npm run start:prod"
+    command: bash -c "npm install && npm run build && npm run start:prod"
     ports:
       - ${PORT}:${PORT}
     volumes:
