@@ -1,7 +1,7 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { Movie } from 'src/infra/typeorm/entities';
+import { Category, Movie } from 'src/infra/typeorm/entities';
 import { MovieCategory } from 'src/infra/typeorm/entities/movie-category.entity';
-import { CreateMovieDto } from 'src/presentation/dtos/movie-dto';
+import { CreateMovieDto, UpdateChipDto } from 'src/presentation/dtos/movie-dto';
 import { Repository } from 'typeorm';
 
 @Injectable()
@@ -11,6 +11,8 @@ export class MovieService {
     private movieRepository: Repository<Movie>,
     @Inject('MOVIE_CATEGORY_REPOSITORY')
     private movieCategoryRepository: Repository<MovieCategory>,
+    @Inject('CATEGORY_REPOSITORY')
+    private categoryRepository: Repository<Category>,
   ) {}
 
   async create({
@@ -25,6 +27,19 @@ export class MovieService {
       release_date,
     });
 
+    const categoriesId = await this.categoryRepository.find({
+      select: { id: true },
+    });
+
+    const formattedCategoriesId = categoriesId.map(({ id }) => id);
+
+    const verifyCategorieIdIsValid = categories.some(
+      (id) => !formattedCategoriesId.includes(id),
+    );
+
+    if (verifyCategorieIdIsValid)
+      throw new NotFoundException('category not found');
+
     categories.forEach(
       async (category_id) =>
         await this.movieCategoryRepository.insert({
@@ -37,22 +52,13 @@ export class MovieService {
   }
 
   async loadAllMovies(): Promise<Movie[]> {
-    const movies = await this.movieRepository
-      .createQueryBuilder('movie')
-      .select([
-        'movie.id',
-        'movie.name',
-        'movie.trailer_link',
-        'movie.release_date',
-        'movie.created_at',
-        'movie.updated_at',
-        'movieToCategories',
-        'categorie',
-      ])
-      .leftJoin('movie.movieToCategories', 'movieToCategories')
-      .leftJoin('movieToCategories.categorie', 'categorie')
-      .getMany();
-
+    const movies = await this.movieRepository.find({
+      relations: {
+        movieToCategories: {
+          category: true,
+        },
+      },
+    });
     return movies;
   }
 
@@ -74,5 +80,15 @@ export class MovieService {
     const { affected } = await this.movieRepository.delete(id);
     if (affected === 0) throw new NotFoundException('movie not found');
     return affected;
+  }
+
+  async updateMovie(id: number, movieData: UpdateChipDto): Promise<number> {
+    const movie = await this.movieRepository.findOneBy({ id });
+    if (!movie) throw new NotFoundException('movie not found');
+    const { affected } = await this.movieRepository.update(
+      { id },
+      { ...movieData },
+    );
+    return affected[0];
   }
 }

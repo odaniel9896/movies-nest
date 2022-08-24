@@ -16,10 +16,10 @@ export class Movie {
   @Column()
   name: string;
 
-  @Column()
+  @Column({ nullable: true })
   release_date: Date;
 
-  @Column()
+  @Column({ nullable: true })
   trailer_link: string;
 
   @CreateDateColumn()

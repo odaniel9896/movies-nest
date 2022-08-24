@@ -3,8 +3,9 @@ import {
   ArrayMinSize,
   IsArray,
   IsDateString,
-  IsNumber,
+  IsNotEmpty,
   IsNumberString,
+  IsOptional,
   IsString,
 } from 'class-validator';
 
@@ -14,10 +15,14 @@ export class CreateMovieDto {
   name: string;
 
   @IsDateString()
-  @ApiProperty()
+  @IsOptional()
+  @IsNotEmpty()
+  @ApiProperty({ required: false })
   release_date: Date;
 
   @IsString()
+  @IsOptional()
+  @IsNotEmpty()
   @ApiProperty()
   trailer_link: string;
 
@@ -26,7 +31,28 @@ export class CreateMovieDto {
   categories: number[];
 }
 
-export class FindChipDto {
+export class ChipIdDto {
   @IsNumberString()
+  @ApiProperty({ required: true })
   id: number;
+}
+
+export class UpdateChipDto {
+  @IsString()
+  @ApiProperty({ required: false, default: 'Maze Runner' })
+  @IsOptional()
+  @IsNotEmpty()
+  name: string;
+
+  @ApiProperty({ required: false, default: '2022-04-30' })
+  @IsDateString()
+  @IsOptional()
+  @IsNotEmpty()
+  release_date: Date;
+
+  @ApiProperty({ required: false, default: 'Eu sou a lenda' })
+  @IsString()
+  @IsOptional()
+  @IsNotEmpty()
+  trailer_link: string;
 }

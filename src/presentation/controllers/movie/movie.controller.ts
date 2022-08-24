@@ -6,11 +6,16 @@ import {
   NotFoundException,
   Param,
   Post,
+  Put,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { Movie } from 'src/domain/models';
-import { CreateMovieDto, FindChipDto } from 'src/presentation/dtos/movie-dto';
+import {
+  ChipIdDto,
+  CreateMovieDto,
+  UpdateChipDto,
+} from 'src/presentation/dtos/movie-dto';
 import { JwtAuthGuard } from 'src/usecases/authentication/jwt-auth.guard';
 import { MovieService } from 'src/usecases/movie/movie.service';
 
@@ -32,12 +37,26 @@ export class MovieController {
 
   @Get(':id')
   @UseInterceptors(NotFoundException)
-  async findOne(@Param() { id }: FindChipDto): Promise<Movie> {
+  async findOne(@Param() { id }: ChipIdDto): Promise<Movie> {
     return await this.movieService.loadMovie(id);
   }
 
   @Delete(':id')
-  async delete(@Param() { id }: FindChipDto) {
-    return await this.movieService.deleteMovie(id);
+  async delete(@Param() { id }: ChipIdDto) {
+    await this.movieService.deleteMovie(id);
+    return { success: true };
+  }
+
+  @Put(':id')
+  async update(
+    @Param() { id }: ChipIdDto,
+    @Body() { name, release_date, trailer_link }: UpdateChipDto,
+  ) {
+    await this.movieService.updateMovie(id, {
+      name,
+      release_date,
+      trailer_link,
+    });
+    return { success: true };
   }
 }
