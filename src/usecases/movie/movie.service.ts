@@ -1,6 +1,6 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { Movie } from 'src/infra/typeorm/entities';
-import { MovieCategorie } from 'src/infra/typeorm/entities/movie-categorie.entity';
+import { MovieCategory } from 'src/infra/typeorm/entities/movie-category.entity';
 import { CreateMovieDto } from 'src/presentation/dtos/movie-dto';
 import { Repository } from 'typeorm';
 
@@ -9,8 +9,8 @@ export class MovieService {
   constructor(
     @Inject('MOVIE_REPOSITORY')
     private movieRepository: Repository<Movie>,
-    @Inject('MOVIE_CATEGORIE_REPOSITORY')
-    private movieCategorieRepository: Repository<MovieCategorie>,
+    @Inject('MOVIE_CATEGORY_REPOSITORY')
+    private movieCategoryRepository: Repository<MovieCategory>,
   ) {}
 
   async create({
@@ -26,10 +26,10 @@ export class MovieService {
     });
 
     categories.forEach(
-      async (categorie_id) =>
-        await this.movieCategorieRepository.insert({
+      async (category_id) =>
+        await this.movieCategoryRepository.insert({
           movie_id: identifiers[0].id,
-          categorie_id,
+          category_id,
         }),
     );
 
@@ -60,7 +60,7 @@ export class MovieService {
     const movie = await this.movieRepository.findOne({
       relations: {
         movieToCategories: {
-          categorie: true,
+          category: true,
         },
       },
       where: { id },
@@ -70,7 +70,7 @@ export class MovieService {
   }
 
   async deleteMovie(id: number): Promise<number> {
-    await this.movieCategorieRepository.delete({ movie_id: id });
+    await this.movieCategoryRepository.delete({ movie_id: id });
     const { affected } = await this.movieRepository.delete(id);
     if (affected === 0) throw new NotFoundException('movie not found');
     return affected;

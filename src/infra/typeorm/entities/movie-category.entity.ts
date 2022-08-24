@@ -9,16 +9,16 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Categorie } from './categorie.entity';
+import { Category } from './category.entity';
 import { Movie } from './movie.entity';
 
-@Entity('rel_movie_categorie')
-export class MovieCategorie {
+@Entity('rel_movie_category')
+export class MovieCategory {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
-  categorie_id: number;
+  category_id: number;
 
   @Column({})
   movie_id: number;
@@ -33,7 +33,7 @@ export class MovieCategorie {
   @JoinColumn({ name: 'movie_id' })
   movie: Movie;
 
-  @ManyToOne(() => Categorie, (category) => category.categoriesToMovie)
-  @JoinColumn({ name: 'categorie_id' })
-  categorie: Categorie;
+  @ManyToOne(() => Category, (category) => category.categoriesToMovie)
+  @JoinColumn({ name: 'category_id' })
+  category: Category;
 }
