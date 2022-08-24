@@ -15,8 +15,6 @@ async function bootstrap() {
       'Rotas da API de filmes com sistema de autenticação e um CRUD',
     )
     .setVersion('1.0')
-    .addTag('movies')
-    .addTag('filmes')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);

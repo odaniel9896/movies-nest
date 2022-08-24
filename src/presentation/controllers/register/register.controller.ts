@@ -5,10 +5,12 @@ import {
   UnauthorizedException,
   UseInterceptors,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { RegisterDto } from 'src/presentation/dtos';
 import { RegisterService } from 'src/usecases/register/register.service';
 
 @Controller('register')
+@ApiTags('register')
 export class RegisterController {
   constructor(private readonly registerService: RegisterService) {}
 
