@@ -10,7 +10,7 @@ import {
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiHeader, ApiTags } from '@nestjs/swagger';
 import { Movie } from 'src/domain/models';
 import {
   ChipIdDto,
@@ -22,6 +22,7 @@ import { MovieService } from 'src/usecases/movie/movie.service';
 
 @UseGuards(JwtAuthGuard)
 @ApiTags('movie')
+@ApiBearerAuth('JWT-auth')
 @Controller('movie')
 export class MovieController {
   constructor(private readonly movieService: MovieService) {}

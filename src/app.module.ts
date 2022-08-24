@@ -8,9 +8,9 @@ import constants from './main/config/constants';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true, load: [constants] }),
     AuthenticationModule,
     RegisterModule,
+    ConfigModule.forRoot({ isGlobal: true, load: [constants] }),
     MovieModule,
     CategorieModule,
   ],
